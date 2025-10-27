@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
 const port = process.env.PORT || 3000;
+
+app.use(cors());
+app.use(express.json());
 
 app.get("/", (req, res) => {
 	res.send("User management server running.");
@@ -16,6 +18,13 @@ const users = [
 
 app.get("/users", (req, res) => {
 	res.send(users);
+});
+
+app.post("/users", (req, res) => {
+	const newUser = req.body;
+	newUser.id = users.length + 1;
+	users.push(newUser);
+	res.send(newUser);
 });
 
 app.listen(port, () => {
